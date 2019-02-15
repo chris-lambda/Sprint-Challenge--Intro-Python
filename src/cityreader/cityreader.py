@@ -4,11 +4,11 @@
 class City:
   def __init__(self, name, lat, lon):
     self.name = name
-    self.latitude = lat
-    self.longitude = lon
+    self.lat = float(lat)
+    self.lon = float(lon)
   
   def __repr__(self):
-    return f"<{self.name}, {self.latitude}, {self.longitude}>"
+    return f"<{self.name}, {self.lat}, {self.lon}>"
 
 # We have a collection of US cities with population over 750,000 stored in the
 # file "cities.csv". (CSV stands for "comma-separated values".)
@@ -34,6 +34,8 @@ def cityreader(cities=[]):
     for i, row in enumerate(res):
       if i == 0: continue
       cities.append(City(row[0], row[3], row[4]))
+  # return cities
+  return cities
 
 cityreader(cities)
 
@@ -72,12 +74,29 @@ for c in cities:
 
 # TODO Get latitude and longitude values from the user
 
+# cord1 = input("Enter lat1,lon1: ").split(',')
+# cord2 = input("Enter lat2,lon2: ").split(',')
+
+# print(cord1)
+# print(cord2)
+
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
-  within = []
+  # within = []
 
   # TODO Ensure that the lat and lon valuse are all floats
+  cord1 = {"lat": float(lat1), "lon": float(lon1)}
+  cord2 = {"lat": float(lat2), "lon": float(lon2)}
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
 
+  within = [x for x in cities 
+              if cord1["lat"] <= x.lat <= cord2["lat"] 
+              and cord1["lon"] <= x.lon <= cord2["lon"]
+              or cord1["lat"] >= x.lat >= cord2["lat"] 
+              and cord1["lon"] >= x.lon >= cord2["lon"]]
+
   return within
+
+# cities_found = cityreader_stretch(cord1[0], cord1[1], cord2[0], cord2[1])
+# print(cities_found)
